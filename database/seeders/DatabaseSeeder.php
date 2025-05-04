@@ -60,7 +60,6 @@ class DatabaseSeeder extends Seeder
         $this->call(MigrationsTableSeeder::class);
         $this->call(PasswordResetTokensTableSeeder::class);
         $this->call(PersonalAccessTokensTableSeeder::class);
-        $this->call(ProdukTableSeeder::class);
         $this->call(UsersTableSeeder::class);
     }
 }
