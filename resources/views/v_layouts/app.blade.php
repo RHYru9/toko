@@ -238,7 +238,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ asset('frontend/js/jquery.zoom.min.js') }}"></script>
     <script src="{{ asset('frontend/js/main.js') }}"></script>
-
     <!-- Script toggle kategori -->
     <script>
         document.addEventListener("DOMContentLoaded", function () {
