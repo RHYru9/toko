@@ -47,14 +47,10 @@
                                     <a href="{{ route('history.invoice', $order->id) }}" class="btn btn-sm btn-outline-info" target="_blank">
                                         <i class="fas fa-file-invoice me-1"></i> Invoice
                                     </a>
-
                                     @if($order->status === 'pending')
-                                        <form action="{{ route('history.pay', $order->id) }}" method="POST">
-                                            @csrf
-                                            <button type="submit" class="btn btn-sm btn-success">
-                                                <i class="fas fa-credit-card me-1"></i> Bayar
-                                            </button>
-                                        </form>
+                                        <button class="btn btn-sm btn-success pay-button" data-order-id="{{ $order->id }}">
+                                            <i class="fas fa-credit-card me-1"></i> Bayar
+                                        </button>
                                     @endif
                                 </div>
                             </td>
@@ -69,4 +65,55 @@
         </div>
     @endif
 </div>
+
+@if(config('services.midtrans.client_key'))
+    <!-- Midtrans Snap JS -->
+    <script src="https://app.sandbox.midtrans.com/snap/snap.js"
+            data-client-key="{{ config('services.midtrans.client_key') }}"></script>
+
+    <script>
+        document.querySelectorAll('.pay-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const orderId = this.getAttribute('data-order-id');
+
+                // Show loading state
+                this.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Memproses...';
+                this.disabled = true;
+
+                // Get Snap token via AJAX
+                fetch(`/history/${orderId}/snap-token`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.snap_token) {
+                            // Open Snap popup
+                            snap.pay(data.snap_token, {
+                                onSuccess: function(result) {
+                                    window.location.reload();
+                                },
+                                onPending: function(result) {
+                                    window.location.reload();
+                                },
+                                onError: function(result) {
+                                    window.location.reload();
+                                },
+                                onClose: function() {
+                                    button.innerHTML = '<i class="fas fa-credit-card me-1"></i> Bayar';
+                                    button.disabled = false;
+                                }
+                            });
+                        } else {
+                            alert('Gagal memproses pembayaran: ' + (data.error || 'Unknown error'));
+                            button.innerHTML = '<i class="fas fa-credit-card me-1"></i> Bayar';
+                            button.disabled = false;
+                        }
+                    })
+                    .catch(error => {
+                        alert('Terjadi kesalahan: ' + error.message);
+                        button.innerHTML = '<i class="fas fa-credit-card me-1"></i> Bayar';
+                        button.disabled = false;
+                    });
+            });
+        });
+    </script>
+@endif
 @endsection

@@ -7,9 +7,20 @@ use App\Models\OrderItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Midtrans\Config;
+use Midtrans\Snap;
 
 class HistoryController extends Controller
 {
+    public function __construct()
+    {
+        // Set Midtrans configuration
+        Config::$serverKey = config('services.midtrans.server_key');
+        Config::$isProduction = config('services.midtrans.is_production');
+        Config::$isSanitized = true;
+        Config::$is3ds = true;
+    }
+
     public function index()
     {
         $orders = Order::where('user_id', auth()->id())
@@ -23,6 +34,39 @@ class HistoryController extends Controller
 
         return view('history.index', compact('orders'));
     }
+
+    public function getSnapToken(Order $order)
+{
+    if ($order->user_id !== auth()->id()) {
+        abort(403);
+    }
+
+    if ($order->status !== 'pending') {
+        return redirect()->back()->with('error', 'Order is not pending payment');
+    }
+
+    $params = [
+        'transaction_details' => [
+            'order_id' => $order->id,
+            'gross_amount' => $order->final_price,
+        ],
+        'customer_details' => [
+            'first_name' => $order->customer_name,
+            'email' => $order->customer_email,
+            'phone' => $order->hp,
+            'address' => $order->alamat,
+            'postal_code' => $order->pos,
+        ],
+    ];
+
+    try {
+        $snapToken = Snap::getSnapToken($params);
+        return response()->json(['snap_token' => $snapToken]);
+    } catch (\Exception $e) {
+        return response()->json(['error' => $e->getMessage()], 500);
+    }
+}
+
 
     public function show(Order $order)
     {

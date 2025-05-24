@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Http;
 use App\Http\Controllers\BerandaController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserController;
@@ -15,9 +16,9 @@ use App\Http\Controllers\OngkirController;
 use App\Http\Controllers\OngkirProController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\HistoryController;
-use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\MidtransController;
 
 
 Route::get('/', function () {
@@ -60,6 +61,10 @@ Route::prefix('backend')->name('backend.')->group(function () {
     Route::get('login', [LoginController::class, 'loginBackend'])->name('login');
     Route::post('login', [LoginController::class, 'authenticateBackend'])->name('login.authenticate');
     Route::post('logout', [LoginController::class, 'logoutBackend'])->name('logout');
+
+Route::get('/backend/beranda', [BerandaController::class, 'berandaBackend'])
+    ->name('backend.beranda')
+    ->middleware(['web', 'auth:user']);
 
     // Hanya untuk admin yang sudah login pakai guard:user
     Route::middleware('auth:user')->group(function () {
@@ -136,7 +141,6 @@ Route::prefix('history')->middleware(['auth'])->group(function () {
     Route::get('/{order}', [HistoryController::class, 'show'])->name('history.show');
     Route::get('/{order}/edit', [HistoryController::class, 'edit'])->name('history.edit');
     Route::put('/{order}', [HistoryController::class, 'update'])->name('history.update');
-    Route::post('/{order}/pay', [HistoryController::class, 'pay'])->name('history.pay');
     Route::get('/{order}/invoice', [HistoryController::class, 'invoice'])->name('history.invoice');
     Route::get('/{order}/invoice-pdf', [HistoryController::class, 'invoicePdf'])->name('history.invoice.pdf');
 });
@@ -147,13 +151,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
 });
 
-// Payment routes - Added new group
-Route::prefix('payments')->middleware('auth')->group(function () {
-    Route::get('/methods', [PaymentController::class, 'index'])->name('payments.methods');
-    Route::post('/process', [PaymentController::class, 'process'])->name('payments.process');
-    Route::get('/success', [PaymentController::class, 'success'])->name('payments.success');
-    Route::get('/failed', [PaymentController::class, 'failed'])->name('payments.failed');
-});
 
 // History Routes
 Route::get('/invoice/{invoiceId}', [InvoiceController::class, 'showInvoice'])->name('invoice.show');
@@ -163,7 +160,6 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/history/{id}', [HistoryController::class, 'update'])->name('history.update');
     Route::get('/history/{id}/invoice', [HistoryController::class, 'invoice'])->name('history.invoice');
     Route::get('/history/{id}/invoice/download', [HistoryController::class, 'downloadInvoice'])->name('history.invoice.download');
-    Route::post('/history/{id}/pay', [HistoryController::class, 'processPayment'])->name('history.payment');
 });
 
 
@@ -174,9 +170,9 @@ Route::middleware(['auth'])->prefix('reviews')->group(function () {
     Route::delete('/{id}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
 });
 
-// Wishlist Routes - Added new group (assuming you have a WishlistController)
-Route::middleware(['auth'])->prefix('wishlist')->group(function () {
-    Route::get('/', [WishlistController::class, 'index'])->name('wishlist.index');
-    Route::post('/add/{product_id}', [WishlistController::class, 'store'])->name('wishlist.add');
-    Route::delete('/remove/{product_id}', [WishlistController::class, 'destroy'])->name('wishlist.remove');
-});
+
+// Add this route
+Route::get('/history/{order}/snap-token', [HistoryController::class, 'getSnapToken'])
+    ->name('history.snap-token')
+    ->middleware('auth');
+

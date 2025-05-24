@@ -58,7 +58,7 @@
                             </li>
                         @else
                             <li><a class="dropdown-item" href="{{ route('customer.login') }}"><i class="fa fa-unlock-alt me-2"></i> Masuk</a></li>
-                            <li><a class="dropdown-item" href="{{ route('auth.google') }}"><i class="fa fa-google me-2"></i> Masuk dengan Google</a></li>
+                            <li><a class="dropdown-item" href="{{ route('auth.google') }}"><i class="fab fa-google me-2"></i> Masuk dengan Google</a></li>
                             <li><a class="dropdown-item" href="{{ route('auth.google') }}"><i class="fa fa-user-plus me-2"></i> Buat Akun</a></li>
                         @endauth
                     </ul>

@@ -14,6 +14,7 @@ class KeranjangController extends Controller
 
     public function __construct()
     {
+        $this->middleware('auth:customer', ['except' => ['count']]);
         $this->apiKey = env('RAJAONGKIR_API_KEY');
         $this->baseUrl = env('RAJAONGKIR_BASE_URL');
     }

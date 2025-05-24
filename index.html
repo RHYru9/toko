@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toko Online Admin Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .header {
+            margin-bottom: 30px;
+        }
+
+        .welcome-message {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .welcome-message h1 {
+            margin-top: 0;
+            color: #444;
+            font-size: 24px;
+        }
+
+        .welcome-message p {
+            margin-bottom: 0;
+            color: #666;
+        }
+
+        .chart-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .chart-title {
+            margin-top: 0;
+            color: #444;
+            font-size: 18px;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .stat-card {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px 0;
+            color: #333;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .subtitle {
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Halaman Beranda</h1>
+    </div>
+
+    <div class="welcome-message">
+        <h1>Selamat Datang, Administrator</h1>
+        <p>Aplikasi Toko Online dengan hak akses yang anda miliki sebagai Super Admin ini adalah halaman utama dari aplikasi Web Programming. Studi Kasus Toko Online.</p>
+        <p class="subtitle">Kuliah.2 BSI Aja III</p>
+    </div>
+
+    <div class="chart-container">
+        <h2 class="chart-title">Site Analysis</h2>
+        <p class="subtitle">Overview of Latest Month</p>
+        <canvas id="myChart" height="150"></canvas>
+    </div>
+
+    <div class="stats-container">
+        <div class="stat-card">
+            <div class="stat-value">2540</div>
+            <div class="stat-label">Total Users</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">656</div>
+            <div class="stat-label">Total Shop</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">9540</div>
+            <div class="stat-label">Total Orders</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">100</div>
+            <div class="stat-label">Pending Orders</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">8500</div>
+            <div class="stat-label">Online Orders</div>
+        </div>
+    </div>
+
+    <script>
+        // Generate sine and cosine data
+        const labels = [];
+        const sinData = [];
+        const cosData = [];
+
+        for (let i = 0; i <= 10; i += 0.1) {
+            labels.push(i.toFixed(1));
+            sinData.push(Math.sin(i));
+            cosData.push(Math.cos(i));
+        }
+
+        // Create chart
+        const ctx = document.getElementById('myChart').getContext('2d');
+        const myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'sin(x)',
+                        data: sinData,
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        tension: 0.1,
+                        pointRadius: 0
+                    },
+                    {
+                        label: 'cos(x)',
+                        data: cosData,
+                        borderColor: 'rgba(153, 102, 255, 1)',
+                        backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                        tension: 0.1,
+                        pointRadius: 0
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        min: -1.0,
+                        max: 1.0,
+                        ticks: {
+                            stepSize: 0.5
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            callback: function(value, index, values) {
+                                // Only show integer labels
+                                return Number.isInteger(parseFloat(this.getLabelForValue(value))) ? this.getLabelForValue(value) : '';
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

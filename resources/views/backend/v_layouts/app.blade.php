@@ -13,6 +13,16 @@
     <link rel="stylesheet" href="{{ asset('backend/extra-libs/multicheck/multicheck.css') }}">
     <link rel="stylesheet" href="{{ asset('backend/libs/datatables.net-bs4/css/dataTables.bootstrap4.css') }}">
     <link rel="stylesheet" href="{{ asset('backend/dist/css/style.min.css') }}">
+    <link href="{{ asset('backend/libs/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
+
+    <!-- Chart.js CSS (jika ada) -->
+    <style>
+        .chart-container {
+            position: relative;
+            height: 400px;
+            width: 100%;
+        }
+    </style>
 
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -164,6 +174,10 @@
     <script src="{{ asset('backend/extra-libs/multicheck/jquery.multicheck.js') }}"></script>
     <script src="{{ asset('backend/extra-libs/DataTables/datatables.min.js') }}"></script>
 
+    <!-- Load Chart.js sebelum script custom -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+
+    <!-- Script untuk DataTables -->
     <script>
         $('#zero_config').DataTable();
     </script>
@@ -226,12 +240,20 @@
         }
     </script>
 
+    <!-- CKEditor -->
+    @stack('ckeditor')
     <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
     <script>
-        ClassicEditor.create(document.querySelector('#ckeditor'))
-            .catch(error => console.error(error));
+        document.addEventListener('DOMContentLoaded', function() {
+            const ckeditorElement = document.querySelector('#ckeditor');
+            if (ckeditorElement) {
+                ClassicEditor.create(ckeditorElement)
+                    .catch(error => console.error(error));
+            }
+        });
     </script>
 
+    <!-- Stack untuk script tambahan dari child views -->
+    @stack('scripts')
 </body>
-
 </html>

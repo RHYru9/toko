@@ -1,54 +1,89 @@
 <div id="aside" class="col-md-3 custom-sidebar">
-    <!-- TOP RATED PRODUCTS -->
+    <!-- CATEGORIES -->
     <div class="custom-sidebar-widget">
-        <h3 class="custom-widget-title">TOP RATED PRODUCT</h3>
-
-        <div class="custom-product-widget">
-            <div class="custom-product-thumb">
-                <img src="{{ asset('frontend/img/thumb-product01.jpg') }}" alt="Product">
-            </div>
-            <div class="custom-product-details">
-                <a href="#" class="custom-product-name">Product Name Goes Here</a>
-                <div class="custom-product-price">
-                    $32.50 <span class="custom-old-price">$45.00</span>
-                </div>
-                <div class="custom-product-rating">
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star-o"></i>
-                </div>
-            </div>
-        </div>
-
-        <div class="custom-product-widget">
-            <div class="custom-product-thumb">
-                <img src="{{ asset('frontend/img/thumb-product01.jpg') }}" alt="Product">
-            </div>
-            <div class="custom-product-details">
-                <a href="#" class="custom-product-name">Product Name Goes Here</a>
-                <div class="custom-product-price">$32.50</div>
-                <div class="custom-product-rating">
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star-o"></i>
-                </div>
-            </div>
-        </div>
+        <span class="category-header" id="toggleKategori">KATEGORI <i class=""></i></span>
+        <ul class="category-list custom-brand-list {{ request()->segment(1) == '' || request()->segment(1) == 'beranda' ? '' : 'd-none' }}" id="kategoriList">
+            @foreach ($kategori as $row)
+                <li><a href="{{ route('produk.kategori', $row->id) }}">{{ $row->nama_kategori }}</a></li>
+            @endforeach
+        </ul>
     </div>
 
-    <!-- BRAND FILTER -->
+    <!-- TOP PRODUCTS - MANUAL -->
     <div class="custom-sidebar-widget">
-        <h3 class="custom-widget-title">FILTER BY BRAND</h3>
-        <ul class="custom-brand-list">
-            <li><a href="#">NIKE</a></li>
-            <li><a href="#">ADIDAS</a></li>
-            <li><a href="#">POLO</a></li>
-            <li><a href="#">LACOST</a></li>
-        </ul>
+        <h3 class="custom-widget-title">PRODUK TERLARIS</h3>
+
+        <!-- Product 1 -->
+        <div class="custom-product-widget">
+            <div class="custom-product-thumb">
+                <img src="{{ asset('storage/img-produk/thumb_lg_20250502073429_681413155e9cc.png') }}" alt="Mochi Singkong Kacang">
+            </div>
+            <div class="custom-product-details">
+                <a href="#" class="custom-product-name">Mochi Hanabira</a>
+                <div class="custom-product-price">Rp. 45.000</div>
+                <div class="custom-product-rating">
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star-half-o"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Product 2 -->
+        <div class="custom-product-widget">
+            <div class="custom-product-thumb">
+                <img src="{{ asset('storage/img-produk/thumb_lg_20250502074208_681414e0bccf1.jpg') }}" alt="Brownies Crispy">
+            </div>
+            <div class="custom-product-details">
+                <a href="#" class="custom-product-name">Wingko Babat</a>
+                <div class="custom-product-price">Rp. 25.000</div>
+                <div class="custom-product-rating">
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star-o"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Product 3 -->
+        <div class="custom-product-widget">
+            <div class="custom-product-thumb">
+                <img src="{{ asset('storage/img-produk/thumb_lg_20250502073715_681413bbb1eea.png') }}" alt="Mochi Singkong Cokelat">
+            </div>
+            <div class="custom-product-details">
+                <a href="#" class="custom-product-name">Mochi YummY!!</a>
+                <div class="custom-product-price">Rp. 80.000</div>
+                <div class="custom-product-rating">
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Product 4 -->
+        <div class="custom-product-widget">
+            <div class="custom-product-thumb">
+                <img src="{{ asset('storage/img-produk/thumb_lg_20250502071330_68140e2aa1ab0.jpg') }}" alt="Wingko Singkong Keju Cokelat">
+            </div>
+            <div class="custom-product-details">
+                <a href="#" class="custom-product-name">Dawet Alam surga</a>
+                <div class="custom-product-price">Rp. 10.000</div>
+                <div class="custom-product-rating">
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star-half-o"></i>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -76,6 +111,23 @@
         padding-bottom: 8px;
         border-bottom: 1px solid #eeeeee;
         letter-spacing: 0.5px;
+    }
+
+    .category-header {
+        font-size: 15px;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: #333333;
+        cursor: pointer;
+        display: block;
+        margin-bottom: 15px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #eeeeee;
+        letter-spacing: 0.5px;
+    }
+
+    .category-header i {
+        margin-left: 5px;
     }
 
     .custom-product-widget {
@@ -193,3 +245,13 @@
         }
     }
 </style>
+
+<script>
+    // Toggle kategori list on mobile
+    document.getElementById('toggleKategori').addEventListener('click', function() {
+        if (window.innerWidth <= 768) {
+            const kategoriList = document.getElementById('kategoriList');
+            kategoriList.classList.toggle('d-none');
+        }
+    });
+</script>
