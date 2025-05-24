@@ -24,7 +24,7 @@ class CustomersTableSeeder extends Seeder
                 'id' => 1,
                 'user_id' => 4,
                 'google_id' => '118125924815964966610',
-                'google_token' => 'ya29.a0AZYkNZhFQHQzYunn_sYVNIRGgyOOYW3YRJ5LWB1jjiEV2Rey-Yj_ExcpuEEXSELitlDCgmydSpiXMP9oCzvvcuNCbsBG9v-DbVwI5Cc_CsgZiBDsmzCXdBhh__JoUbb0yRu1H6To2In4Jko_vq3SGDgKxpdM4MBP57MeBy0enQaCgYKAbQSARESFQHGX2Mis4E1gXS4nE8Tl8kWcd6Ngw0177',
+                'google_token' => 'ya29.x-xxxx-xxxxx',
                 'name' => 'rhy0z Dz',
                 'email' => 'rhyfk0z@gmail.com',
                 'password' => '$2y$10$N8bHWKUJwp2ksOEY5C472.uo564VL4kW4Ew7xR17hxo6B866.5Ou.',
